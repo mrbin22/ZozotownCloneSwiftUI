@@ -10,30 +10,37 @@ import SwiftUI
 struct DetailProductView: View {
     var product: Product
     @State private var isShowBottomBar = false
+    
     var body: some View {
         
-            ScrollView(.vertical, showsIndicators: false) {
-                ImageTopView()
-                SizesView(product: Develop.products.first!)
-                
-                Title(product: product)
+        ScrollView(.vertical, showsIndicators: false) {
+            // images
+            ImageTopView()
+            // sizes
+            SizesView(product: Develop.products.first!)
+            // product information
+            Title(product: product)
                 .padding(.leading)
-                
-                
-            }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation {
-                        isShowBottomBar.toggle()
-                    }
+            
+            Detail(product: product)
+            
+            
+            
+        }
+        .onAppear {
+            // delay 1s after active show bottom menu bar
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation {
+                    isShowBottomBar.toggle()
                 }
             }
-            .overlay(alignment: .bottom) {
-                if isShowBottomBar {
-                    BottomMenuBar()
-                        .transition(.move(edge: .bottom))
-                }
+        }
+        .overlay(alignment: .bottom) {
+            if isShowBottomBar {
+                BottomMenuBar(product: product)
+                    .transition(.move(edge: .bottom))
             }
+        }
         
         
     }
@@ -232,6 +239,7 @@ private struct Title: View {
 }
 
 private struct BottomMenuBar: View {
+    var product: Product
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         Rectangle()
@@ -262,7 +270,7 @@ private struct BottomMenuBar: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color.cyan)
-                    .frame(height: 50)
+                        .frame(height: 50)
                     HStack {
                         Image(systemName: "cart")
                             .foregroundStyle(.white)
@@ -278,7 +286,7 @@ private struct BottomMenuBar: View {
             }, label: {
                 VStack {
                     Image(systemName: "heart.fill")
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(product.isLiked ? .pink.opacity(0.7) : .gray)
                         .font(.title)
                     Text("21,378")
                         .font(.caption2)
@@ -288,5 +296,150 @@ private struct BottomMenuBar: View {
         }
         .padding(.top, 50)
         .padding(.horizontal)
+    }
+}
+
+private struct Detail: View {
+    var product: Product
+    @State private var isShowDescription = false
+    @State private var isShowSizes = false
+    @State private var isShowCoordinate = false
+    @State private var isShowReview = false
+    var body: some View {
+        Divider()
+            .padding(.top, 20)
+        
+        VStack {
+            
+            HStack {
+                Text("アイテム説明")
+                    .font(.callout)
+                    .fontWeight(.medium)
+                Spacer()
+                
+                Image(systemName: isShowDescription ? "chevron.up" : "chevron.down")
+                    .foregroundStyle(.gray)
+            }
+            .background(Color.white)
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .onTapGesture {
+                withAnimation {
+                    isShowDescription.toggle()
+                }
+            }
+            if isShowDescription {
+                Text(product.description)
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal)
+                    .padding(.top, 30)
+                    .background(Color.gray.opacity(0.09))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("アイテムサイズ")
+                    .font(.callout)
+                    .fontWeight(.medium)
+                Spacer()
+                
+                Image(systemName: isShowSizes ? "chevron.up" : "chevron.down")
+                    .foregroundStyle(.gray)
+            }
+            .background(Color.white)
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .onTapGesture {
+                withAnimation {
+                    isShowSizes.toggle()
+                }
+            }
+            
+            if isShowSizes {
+                Text("")
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal)
+                    .padding(.top, 30)
+                    .background(Color.gray.opacity(0.09))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("コーディネート")
+                    .font(.callout)
+                    .fontWeight(.medium)
+                Text("(12)")
+                    .font(.callout)
+                Spacer()
+                
+                Image(systemName: isShowCoordinate ? "chevron.up" : "chevron.down")
+                    .foregroundStyle(.gray)
+            }
+            .background(Color.white)
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .onTapGesture {
+                withAnimation {
+                    isShowCoordinate.toggle()
+                }
+            }
+            
+            if isShowCoordinate {
+                Text("")
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal)
+                    .padding(.top, 30)
+                    .background(Color.gray.opacity(0.09))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("レビュー")
+                    .font(.callout)
+                    .fontWeight(.medium)
+                HStack(spacing: 0) {
+                    ForEach(0..<5) { _ in
+                        Image(systemName: "star.fill")
+                            .foregroundStyle(.yellow)
+                            .font(.caption)
+                    }
+                }
+                Text("(59)")
+                    .font(.callout)
+                Spacer()
+                
+                Image(systemName: isShowReview ? "chevron.up" : "chevron.down")
+                    .foregroundStyle(.gray)
+            }
+            .background(Color.white)
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .onTapGesture {
+                withAnimation {
+                    isShowReview.toggle()
+                }
+            }
+            
+            if isShowReview {
+                Text("")
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal)
+                    .padding(.top, 30)
+                    .background(Color.gray.opacity(0.09))
+            }
+            
+            
+            // test
+            Rectangle()
+                .frame(height: 300)
+        }
+        Divider()
     }
 }
