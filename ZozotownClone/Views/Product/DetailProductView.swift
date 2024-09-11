@@ -15,101 +15,7 @@ struct DetailProductView: View {
             ImageTopView()
             SizesView(product: Develop.products.first!)
             
-            VStack(alignment: .leading) {
-                HStack {
-                    Image(systemName: "tag")
-                        .foregroundStyle(.blue.opacity(0.7))
-                        .font(.headline)
-                        .rotationEffect(.degrees(270))
-                    Text(product.brand)
-                        .font(.headline)
-                        .foregroundStyle(.blue.opacity(0.7))
-                    Spacer()
-                }
-                .padding(.top)
-                .padding(.bottom, 10)
-                
-                Text(product.name)
-                    .font(.subheadline)
-                    .bold()
-                
-                HStack(spacing: 1) {
-                    ForEach(0..<5) { _ in
-                        Image(systemName: "star.fill")
-                            .font(.caption2)
-                            .foregroundStyle(.yellow)
-                    }
-                    
-                    Text("(59)")
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                        .padding(.leading, 5)
-                }
-                
-                HStack(alignment: .bottom) {
-                    Text("\(product.priceString)")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                    Text("税込")
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .offset(y: -4)
-                }
-                .padding(.top, 5)
-                
-                VStack(alignment: .leading ,spacing: 0) {
-                    HStack {
-                        Image(systemName: "parkingsign.circle.fill")
-                            .foregroundStyle(.secondary.opacity(0.6))
-                        Text("ZOZOCARDなら5%還元")
-                            .font(.footnote)
-                        Text("495pt")
-                            .font(.footnote)
-                            .foregroundStyle(.pink)
-                            .offset(x: -5)
-                        Text("詳細")
-                            .font(.footnote)
-                            .foregroundStyle(.blue)
-                            .offset(x: -10)
-                    }
-                    .padding(.top, 5)
-                    
-                    HStack {
-                        Image(systemName: "yensign.circle")
-                            .foregroundStyle(.secondary.opacity(0.6))
-                        Text("ツケ払いならお支払いは")
-                            .font(.footnote)
-                        Text("11月11日")
-                            .font(.footnote)
-                            .foregroundStyle(.pink)
-                            .offset(x: -5)
-                        Text("詳細")
-                            .font(.footnote)
-                            .foregroundStyle(.blue)
-                            .offset(x: -10)
-                    }
-                    .padding(.top, 5)
-                    
-                    HStack {
-                        Image(systemName: "truck.box")
-                            .font(.caption)
-                            .foregroundStyle(.secondary.opacity(0.6))
-                            
-                        Text("即日配送なら最短で")
-                            .font(.footnote)
-                        Text("明日の午前中")
-                            .font(.footnote)
-                            .foregroundStyle(.pink)
-                            .offset(x: -5)
-                        Text("にお届け")
-                            .font(.footnote)
-                            .offset(x: -10)
-                    }
-                    .padding(.top, 5)
-                }
-                
-                
-            }
+            Title(product: product)
             .padding(.leading)
             
            
@@ -207,5 +113,104 @@ struct SizesView: View {
             .padding(.vertical, 5)
         }
         Divider()
+    }
+}
+
+private struct Title: View {
+    var product: Product
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: "tag")
+                    .foregroundStyle(.blue.opacity(0.7))
+                    .font(.headline)
+                    .rotationEffect(.degrees(270))
+                Text(product.brand)
+                    .font(.headline)
+                    .foregroundStyle(.blue.opacity(0.7))
+                Spacer()
+            }
+            .padding(.top)
+            .padding(.bottom, 10)
+            
+            Text(product.name)
+                .font(.subheadline)
+                .bold()
+            
+            HStack(spacing: 1) {
+                ForEach(0..<5) { _ in
+                    Image(systemName: "star.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.yellow)
+                }
+                
+                Text("(59)")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .padding(.leading, 5)
+            }
+            
+            HStack(alignment: .bottom) {
+                Text("\(product.priceString)")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Text("税込")
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .offset(y: -4)
+            }
+            .padding(.top, 5)
+            
+            VStack(alignment: .leading ,spacing: 0) {
+                HStack {
+                    Image(systemName: "parkingsign.circle.fill")
+                        .foregroundStyle(.secondary.opacity(0.6))
+                    Text("ZOZOCARDなら5%還元")
+                        .font(.footnote)
+                    Text("495pt")
+                        .font(.footnote)
+                        .foregroundStyle(.pink)
+                        .offset(x: -5)
+                    Text("詳細")
+                        .font(.footnote)
+                        .foregroundStyle(.blue)
+                        .offset(x: -10)
+                }
+                .padding(.top, 5)
+                
+                HStack {
+                    Image(systemName: "yensign.circle")
+                        .foregroundStyle(.secondary.opacity(0.6))
+                    Text("ツケ払いならお支払いは")
+                        .font(.footnote)
+                    Text("11月11日")
+                        .font(.footnote)
+                        .foregroundStyle(.pink)
+                        .offset(x: -5)
+                    Text("詳細")
+                        .font(.footnote)
+                        .foregroundStyle(.blue)
+                        .offset(x: -10)
+                }
+                .padding(.top, 5)
+                
+                HStack {
+                    Image(systemName: "truck.box")
+                        .font(.caption)
+                        .foregroundStyle(.secondary.opacity(0.6))
+                    
+                    Text("即日配送なら最短で")
+                        .font(.footnote)
+                    Text("明日の午前中")
+                        .font(.footnote)
+                        .foregroundStyle(.pink)
+                        .offset(x: -5)
+                    Text("にお届け")
+                        .font(.footnote)
+                        .offset(x: -10)
+                }
+                .padding(.top, 5)
+            }
+        }
     }
 }
