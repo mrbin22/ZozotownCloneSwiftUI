@@ -8,18 +8,34 @@
 import SwiftUI
 
 struct DetailProductView: View {
-    
     var product: Product
+    @State private var isShowBottomBar = false
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            ImageTopView()
-            SizesView(product: Develop.products.first!)
-            
-            Title(product: product)
-            .padding(.leading)
-            
-           
-        }
+        
+            ScrollView(.vertical, showsIndicators: false) {
+                ImageTopView()
+                SizesView(product: Develop.products.first!)
+                
+                Title(product: product)
+                .padding(.leading)
+                
+                
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation {
+                        isShowBottomBar.toggle()
+                    }
+                }
+            }
+            .overlay(alignment: .bottom) {
+                if isShowBottomBar {
+                    BottomMenuBar()
+                        .transition(.move(edge: .bottom))
+                }
+            }
+        
+        
     }
 }
 
@@ -212,5 +228,65 @@ private struct Title: View {
                 .padding(.top, 5)
             }
         }
+    }
+}
+
+private struct BottomMenuBar: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        Rectangle()
+            .fill(.white)
+            .frame(height: 100)
+            .offset(y: 35)
+            .shadow(radius: 20, y: 20)
+        
+        HStack(alignment: .bottom) {
+            Button(action: {
+                // close sheet
+                dismiss()
+            }, label: {
+                ZStack {
+                    Circle()
+                        .fill(Color.gray)
+                        .frame(width: 50)
+                    Image(systemName: "xmark")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                }
+            })
+            
+            
+            Button(action: {
+                // add to cart
+            }, label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.cyan)
+                    .frame(height: 50)
+                    HStack {
+                        Image(systemName: "cart")
+                            .foregroundStyle(.white)
+                        Text("カートに入れる")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                    }
+                }
+            })
+            
+            Button(action: {
+                // like product
+            }, label: {
+                VStack {
+                    Image(systemName: "heart.fill")
+                        .foregroundStyle(.gray)
+                        .font(.title)
+                    Text("21,378")
+                        .font(.caption2)
+                        .fontWeight(.light)
+                }
+            })
+        }
+        .padding(.top, 50)
+        .padding(.horizontal)
     }
 }
