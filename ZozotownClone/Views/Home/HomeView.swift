@@ -12,13 +12,13 @@ struct HomeView: View {
     @State private var tabView = 0
     @State private var isSelected = -1
     @State var offset: CGFloat = .zero
+    @State private var tabState: Visibility = .visible
     var body: some View {
         GeometryReader { geomatry in
-            
+            Text("\(offset)")
             ZStack(alignment: .top) {
                 Color.gray.opacity(0.25).ignoresSafeArea()
                     .frame(width: abs(.infinity), height: 147)
-                
                 VStack(spacing: 10) {
                     TopView(searchText: $searchText, isSelected: $isSelected, geomatry: .constant(geomatry))
                     ScrollView {
@@ -34,9 +34,8 @@ struct HomeView: View {
                         GenericView(subtitle: "チェックしたアイテム", title: "クーポン対象の人気アイテム")
                             .offset(y: -70)
                     }
-                    
                     .padding(.top, -9.8)
-                   
+                    .gesture(SimultaneousGesture(offset: $offset))
                 }
             }
             
@@ -45,6 +44,7 @@ struct HomeView: View {
                 isSelected = 0
             }
         }
+        .toolbarVisibility(offset >= 0 ? .visible : .hidden, for: .tabBar)
     }
 }
 

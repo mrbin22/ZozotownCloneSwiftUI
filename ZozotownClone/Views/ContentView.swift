@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var isSelected = false
     var body: some View {
-        TabView() {
+        TabView {
             HomeView().tabItem { Tab(image: TabType.home.rawValue, title: "ホーム") }
             LikedView().tabItem { Tab(image: TabType.liked.rawValue, title: "お気に入り").onTapGesture {
                 isSelected.toggle()
@@ -25,7 +25,6 @@ struct ContentView: View {
                 isSelected.toggle()
             } }
         }
-        .tint(.black)
     }
 }
 

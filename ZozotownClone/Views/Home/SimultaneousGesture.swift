@@ -7,12 +7,33 @@
 
 import SwiftUI
 
-struct SimultaneousGesture: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+// MARK: when view is scrolling this implements will get offsetY and auto hidden or show navigation bar
 
-#Preview {
-    SimultaneousGesture()
+struct SimultaneousGesture: UIGestureRecognizerRepresentable {
+    @Binding var offset: CGFloat
+    
+    func makeCoordinator(converter: CoordinateSpaceConverter) -> Coordinator {
+        return Coordinator()
+    }
+    
+    func makeUIGestureRecognizer(context: Context) -> UIPanGestureRecognizer {
+        let gesture = UIPanGestureRecognizer()
+        gesture.delegate = context.coordinator
+        return gesture
+    }
+    
+    func updateUIGestureRecognizer(_ recognizer: UIPanGestureRecognizer, context: Context) {
+        
+    }
+    
+    func handleUIGestureRecognizerAction(_ recognizer: UIPanGestureRecognizer, context: Context) {
+        let translation = recognizer.translation(in: recognizer.view)
+        offset = translation.y
+    }
+    
+    class Coordinator: NSObject, UIGestureRecognizerDelegate {
+        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+            return true
+        }
+    }
 }
