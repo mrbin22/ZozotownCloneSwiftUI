@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct DetailProductView: View {
+    
     var product: Product
     @State private var isShowBottomBar = false
-    
+//    var tabState: Visibility
     var body: some View {
         
         ScrollView(.vertical, showsIndicators: false) {
@@ -41,6 +42,7 @@ struct DetailProductView: View {
                     .transition(.move(edge: .bottom))
             }
         }
+        .navigationBarBackButtonHidden(true)
         
         
     }
@@ -241,6 +243,7 @@ private struct Title: View {
 private struct BottomMenuBar: View {
     var product: Product
     @Environment(\.dismiss) private var dismiss
+    @State private var isShowSheet = false
     var body: some View {
         Rectangle()
             .fill(.white)
@@ -266,6 +269,7 @@ private struct BottomMenuBar: View {
             
             Button(action: {
                 // add to cart
+                isShowSheet.toggle()
             }, label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -296,6 +300,10 @@ private struct BottomMenuBar: View {
         }
         .padding(.top, 50)
         .padding(.horizontal)
+        .sheet(isPresented: $isShowSheet) {
+            SelectSizesView(product: product)
+                .presentationDetents([.height(550)])
+        }
     }
 }
 

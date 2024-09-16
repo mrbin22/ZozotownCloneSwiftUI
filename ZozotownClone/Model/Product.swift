@@ -25,6 +25,7 @@ struct Product: Identifiable, Equatable {
         return formatter.string(from: NSNumber(value: price)) ?? ""
     }
     let model: String
+    let lableSize: [String]
     let sizes: [String]
     let images: [String]
     var description: String
